@@ -1,7 +1,7 @@
 
-# Contact-Library-App
+# Inventory-Management-App
 
-A small nextjs app for CRUD operation of contacts(id, name, email, address, phone)
+A small nextjs app for CRUD operation of inventory(id, name, description) and inventory-item(id, name, description, image and quantity)
 
 To run this project, first clone this project then follow the steps below:
 
