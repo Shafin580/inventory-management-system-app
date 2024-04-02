@@ -16,15 +16,12 @@
 import { memo, useContext, useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import ButtonIcon from "@library/ButtonIcon"
 import variables from "@variables/variables.module.scss"
-import StatusBadge from "@library/StatusBadge"
 import { AppContext } from "@app-context"
-import { getAPIResponse } from "@components/library/utils"
-import { PATHS } from "router.config"
 import { cn } from "tailwind-cn"
 import { useRouter } from "next/navigation"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
+import ButtonIcon from "app/components/global/ButtonIcon"
 
 export interface ProductCardInterface {
   data: any
@@ -96,7 +93,7 @@ const ProductCard = memo(function ProductCard({
               </div>
 
                 <p className="text-xs mt-6 text-slate-700">
-                  Avbl. Units: <span className="font-medium">{200}</span>
+                  Quantity: <span className="font-medium">{200}</span>
                 </p>
             </div>
           </div>

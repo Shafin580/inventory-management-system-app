@@ -2,12 +2,12 @@
 
 import React, { memo, useContext, useEffect, useState } from "react"
 import Image from "next/image"
-import Button from "@library/Button"
 import { useRouter } from "next/navigation"
 import { AppContext } from "@app-context"
 import TextTruncate from "react-text-truncate"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import dynamic from "next/dynamic"
+import Button from "app/components/global/Button"
 
 export interface ProductCardInterface {
   productName?: string
@@ -18,7 +18,7 @@ const ProductDetailCard = memo(function ProductDetailCard({
   productName = "Men's Polo Shirt",
   desc = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Provident iure culpa error, rerum quos non maxime beatae	laboriosam, quaerat unde tempora! Dolor quod explicabo dolorum? Quae, natus, qui laborum reprehenderit omnis excepturi enim,	architecto ipsam adipisci dicta a. Illum facilis praesentium consectetur repudiandae dolorum itaque, quas eos cum quaerat	ad.",
 }: ProductCardInterface) {
-  const { token, userInfo, API_RESOURCE_URL } = useContext(AppContext)
+  const { token, userInfo } = useContext(AppContext)
   const router = useRouter()
   const queryClient = useQueryClient()
 
@@ -79,7 +79,7 @@ const ProductDetailCard = memo(function ProductDetailCard({
           {/* //+ Pricing Information */}
           <div className="price flex gap-x-40">
             <div className="price-info-box text-left">
-              <p className="text-xs text-slate-500">Avbl. Units</p>
+              <p className="text-xs text-slate-500">Quantity</p>
               <p className="text-xl font-bold text-slate-800">{500}</p>
             </div>
           </div>
