@@ -1,0 +1,45 @@
+{
+  "compilerOptions": {
+    // base options
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "target": "ES2022",
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
+
+    // strictness
+    "strict": true,
+    "noUncheckedIndexedAccess": false,
+
+    // for framework resolution
+    "moduleResolution": "Bundler",
+    "module": "ESNext",
+    "noEmit": true,
+
+    // for dom resolution
+    "lib": ["dom", "dom.iterable", "ES2022"],
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next",
+      },
+    ],
+    "baseUrl": "./",
+    "paths": {
+      "app/*": ["./app/*"],
+      "@library/*": ["app/components/library/*"],
+      "@components/*": ["app/components/*"],
+      "@partials/*": ["app/components/partials/*"],
+      "@variables/*": ["app/styles/scss/*"],
+      "@utils/*": ["utils/*"],
+      "@app-context": ["app/App.Context"],
+    },
+    "strictNullChecks": true,
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "test.mjs"],
+  "exclude": ["node_modules", "tsconfig.json"],
+}

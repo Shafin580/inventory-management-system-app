@@ -1,0 +1,12 @@
+app/components/library
+node_modules/
+src/assets/
+dist/
+*.log
+react-table-config.d.ts
+tailwind.config.js
+tailwindcss-full.config.js
+prettier.config.js
+postcss.config.js
+next.config.js
+tsconfig.json

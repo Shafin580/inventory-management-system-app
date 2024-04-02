@@ -1,0 +1,86 @@
+{
+  "400": {
+    "title": "400 | Bad Request",
+    "heading": "Bad Request!",
+    "description": "Your request is malformed or contains invalid data. Please review your input and ensure it adheres to the required format. If you&apos;re still encountering issues, contact the administrator for further assistance.",
+    "image": "/img/error/400.svg"
+  },
+  "401": {
+    "title": "401 | Unauthorized",
+    "heading": "Access Unauthorized!",
+    "description": "You attempted to access a page or resource for which you do not have the necessary authorization. Please ensure you have the appropriate permissions to access the requested information. If you believe you should have access, please contact the administrator for further assistance.",
+    "image": "/img/error/401.svg"
+  },
+  "402": {
+    "title": "402 | Payment Required",
+    "heading": "Payment Required!",
+    "description": "You attempted to access a page or resource that requires payment. Please ensure you have the appropriate permissions to access the requested information. If you believe you should have access, please contact the administrator for further assistance.",
+    "image": "/img/error/402.svg"
+  },
+  "403": {
+    "title": "403 | Forbidden",
+    "heading": "Access Forbidden!",
+    "description": " You attempted to access a page or resource that is forbidden. You do not have the necessary permissions to access the requested information. Please contact the administrator for further assistance or if you believe you should have access to this resource.",
+    "image": "/img/error/403.svg"
+  },
+  "405": {
+    "title": "405 | Method Not Allowed",
+    "heading": "Method Not Allowed!",
+    "description": "The server was unable to process the request due to an invalid method. Please try again later. If you continue to encounter this error, please contact the administrator for further assistance.",
+    "image": "/img/error/405.svg"
+  },
+  "407": {
+    "title": "407 | Proxy Authentication Required",
+    "heading": "Proxy Authentication Required!",
+    "description": "The server was unable to process the request due to a proxy authentication failure. Please try again later. If you continue to encounter this error, please contact the administrator for further assistance.",
+    "image": "/img/error/407.svg"
+  },
+  "408": {
+    "title": "408 | Request Timeout",
+    "heading": "Request Timeout!",
+    "description": "The server was unable to process the request due to a timeout. Please try again later. If you continue to encounter this error, please contact the administrator for further assistance.",
+    "image": "/img/error/408.svg"
+  },
+  "414": {
+    "title": "414 | Request-URI Too Long",
+    "heading": "Request-URI Too Long!",
+    "description": "The server was unable to process the request due to the length of the requested URL. Please try again later. If you continue to encounter this error, please contact the administrator for further assistance.",
+    "image": "/img/error/414.svg"
+  },
+  "415": {
+    "title": "415 | Unsupported Media Type",
+    "heading": "Unsupported Media Type!",
+    "description": "The server was unable to process the request due to invalid data format. Please review your input and ensure it adheres to the required format. If you&apos;re still encountering issues, contact the administrator for further assistance.",
+    "image": "/img/error/415.svg"
+  },
+  "422": {
+    "title": "422 | Unprocessable Content",
+    "heading": "Unprocessable Content!",
+    "description": "The server was unable to process the request due to invalid data. Please review your input and ensure it adheres to the required format. If you&apos;re still encountering issues, contact the administrator for further assistance.",
+    "image": "/img/error/422.svg"
+  },
+  "429": {
+    "title": "429 | Too Many Requests",
+    "heading": "Too Many Requests!",
+    "description": "You have exceeded the maximum number of requests allowed. Please try again later. If you continue to encounter this error, please contact the administrator for further assistance.",
+    "image": "/img/error/429.svg"
+  },
+  "502": {
+    "title": "502 | Bad Gateway",
+    "heading": "Bad Gateway!",
+    "description": "The server encountered an unexpected condition which prevented it from fulfilling the request. Please try again later. If you continue to encounter this error, please contact the administrator for further assistance.",
+    "image": "/img/error/502.svg"
+  },
+  "503": {
+    "title": "503 | Service Unavailable",
+    "heading": "Service Unavailable!",
+    "description": "The service you requested is currently unavailable. Please try again later. If you continue to encounter this error, please contact the administrator for further assistance.",
+    "image": "/img/error/503.svg"
+  },
+  "504": {
+    "title": "504 | Gateway Timeout",
+    "heading": "Gateway Timeout!",
+    "description": "The server encountered an unexpected condition which prevented it from fulfilling the request. Please try again later. If you continue to encounter this error, please contact the administrator for further assistance.",
+    "image": "/img/error/504.svg"
+  }
+}
