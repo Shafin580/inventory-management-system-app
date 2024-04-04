@@ -1,17 +1,17 @@
 import { getAPIResponse } from "@utils/helpers/misc"
 import { PATHS } from "app/(module)/router.config"
-import { CreateUpdateInventoryAPIProps } from "./create-inventory"
+import { CreateUpdateInventoryItemAPIProps } from "./create-inventory-item"
 
 /**
- * Update Inventory
+ * Update Inventory Item
  */
-export const updateInventory = async ({ data, token }: CreateUpdateInventoryAPIProps) => {
+export const updateInventory = async ({ data, token }: CreateUpdateInventoryItemAPIProps) => {
   try {
     const { status_code, message } = await getAPIResponse(
       process.env.NEXT_PUBLIC_SITE_URL!,
       PATHS.INVENTORY.UPDATE(data.id ?? 0).root,
       token,
-      "PUT",
+      "POST",
       JSON.stringify(data)
     )
 

@@ -14,10 +14,10 @@ export const LINKS = {
   },
   INVENTORY_ITEM: {
     LIST: (inventoryId: string | number) => {
-      return {home: `item/list/${inventoryId}`} as const
+      return {home: `inventory-item/${inventoryId}`} as const
     },
-    DYNAMIC: (id: string | number) => {
-      return {home: `item/${id}`} as const
+    DYNAMIC: ({id, inventoryId}:{id: string | number, inventoryId: string | number}) => {
+      return {home: `inventory-item/${inventoryId}/${id}`} as const
     }
   }
 } as const
@@ -34,7 +34,7 @@ export const PATHS = {
       root: `inventory/list` as const,
     },
     DETAILS: (id: string | number) => {
-      return { root: `contacts/${id}` as const }
+      return { root: `inventory/${id}` as const }
     },
     ADD: {
       root: `inventory/add` as const,

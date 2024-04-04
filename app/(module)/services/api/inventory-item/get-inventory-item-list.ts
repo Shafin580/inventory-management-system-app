@@ -1,7 +1,7 @@
 import { getAPIResponse } from "@utils/helpers/misc"
 import { PATHS } from "app/(module)/router.config"
 
-export interface InventoryListAPIProps {
+export interface InventoryItemListAPIProps {
   id: number
   name: string
   email: string
@@ -10,21 +10,22 @@ export interface InventoryListAPIProps {
 }
 
 /**
- * Fetches the inventory list from API
+ * Fetches the inventory item list from API
  */
-export const getInventoryList = async (token: string) => {
+export const getInventoryItemList = async ({ token, userId, inventoryId }: { token: string; userId: number; inventoryId: number }) => {
   try {
     const { results, status_code } = await getAPIResponse(
       process.env.NEXT_PUBLIC_SITE_URL!,
-      PATHS.INVENTORY.LIST.root,
+      PATHS.INVENTORY_ITEM.LIST(inventoryId).root,
       token,
-      "GET"
+      "POST",
+      JSON.stringify({ userId: userId })
     )
 
     if (status_code === 200) {
-      return results as InventoryListAPIProps[]
+      return results as InventoryItemListAPIProps[]
     } else
-      throw Error("Error fetching inventory list", {
+      throw Error("Error fetching inventory item list", {
         cause: status_code,
       })
   } catch (err) {

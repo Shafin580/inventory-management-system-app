@@ -5,6 +5,7 @@ interface CreateUpdateInventoryParams {
   id?: number
   name: string
   description: string | null
+  userId?: number
 }
 
 export interface CreateUpdateInventoryAPIProps {

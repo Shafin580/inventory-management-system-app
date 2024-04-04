@@ -2,7 +2,7 @@
 
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { QUERY_KEYS } from "app/(module)/query.config"
-import { deleteInventory } from "app/(module)/services/api/contacts/delete-inventory-by-id"
+import { deleteInventory } from "app/(module)/services/api/inventory/delete-inventory-by-id"
 import { AppContext } from "app/App.Context"
 import Button from "app/components/global/Button"
 import ModalBlank from "app/components/global/ModalBlank"

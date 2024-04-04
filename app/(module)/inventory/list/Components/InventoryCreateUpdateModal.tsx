@@ -5,8 +5,8 @@ import { QUERY_KEYS } from "app/(module)/query.config"
 import {
   createInventory,
   CreateUpdateInventoryAPIProps,
-} from "app/(module)/services/api/contacts/create-inventory"
-import { updateInventory } from "app/(module)/services/api/contacts/update-inventory"
+} from "app/(module)/services/api/inventory/create-inventory"
+import { updateInventory } from "app/(module)/services/api/inventory/update-inventory"
 import { AppContext } from "app/App.Context"
 import Button from "app/components/global/Button"
 import { validateTextInputField } from "app/components/global/Form/Auth/Validation"
@@ -29,7 +29,7 @@ const InventoryCreateUpdateModal = ({
   onClose,
   isUpdate = false,
 }: InventoryCreateUpdateModalProps) => {
-  const { updateLoadingStatus, token } = useContext(AppContext)
+  const { updateLoadingStatus, token, userInfo } = useContext(AppContext)
   const { renderToast } = useContext(ToastContext)
 
   const queryClient = useQueryClient()
@@ -156,7 +156,7 @@ const InventoryCreateUpdateModal = ({
           }))
         }
       } else {
-        setFormData((prev) => ({ ...prev, name: "", description: "" }))
+        setFormData((prev) => ({ ...prev, name: "", description: "", userId: userInfo?.id }))
       }
     }, [isUpdate, apiData])
 

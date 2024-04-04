@@ -1,5 +1,5 @@
 import { Metadata } from "next"
-import ContactList from "./InventoryList.Client"
+import InventoryList from "./InventoryList.Client"
 
 /**
  * * Metadata for current page
@@ -26,6 +26,6 @@ export const metadata: Metadata = {
 export default async function Page() {
 
   return (
-    <ContactList />
+    <InventoryList />
   )
 }

@@ -33,7 +33,7 @@ export default function LoginForm() {
         login(data.token, {
           email: data.user.email as string,
           id: Number(data.user.id),
-          username: data.user.username as string,
+          username: data.user.name as string,
         })
         router.push(LINKS.INVENTORY.LIST.home)
       } else {

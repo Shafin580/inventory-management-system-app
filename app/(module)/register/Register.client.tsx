@@ -29,8 +29,15 @@ const Register = () => {
         login(data.token, {
           email: data.user.email as string,
           id: Number(data.user.id),
-          username: data.user.username as string,
+          username: data.user.name as string,
         })
+        renderToast([
+          {
+            message: data.message ?? "User registered successfully!",
+            variant: "success",
+            onClose: () => {},
+          },
+        ])
         router.push(LINKS.INVENTORY.LIST.home)
       } else {
         updateLoadingStatus(false, undefined)

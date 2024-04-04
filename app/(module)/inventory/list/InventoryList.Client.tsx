@@ -2,16 +2,17 @@
 
 import { tableURLWithParams } from "@utils/helpers/misc"
 import { LINKS, PATHS } from "app/(module)/router.config"
-import { InventoryListAPIProps } from "app/(module)/services/api/contacts/get-inventory-by-id"
 import { AppContext } from "app/App.Context"
 import ButtonIcon from "app/components/global/ButtonIcon"
 import TablePagy from "app/components/table/TablePagy"
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import ContactCreateUpdateModal from "./Components/InventoryCreateUpdateModal"
 import InventoryDeleteModal from "./Components/InventoryDeleteModal"
 import { QUERY_KEYS } from "app/(module)/query.config"
 import Button from "app/components/global/Button"
 import { useRouter } from "next/navigation"
+import { useQuery } from "@tanstack/react-query"
+import { getInventoryList, InventoryListAPIProps } from "app/(module)/services/api/inventory/get-inventory-list"
 
 const InventoryList = () => {
   const [showCreateModal, setShowCreateModal] = useState(false)
@@ -20,8 +21,26 @@ const InventoryList = () => {
 
   const [selectedData, setSelectedData] = useState<InventoryListAPIProps | null>(null)
 
-  const { token } = useContext(AppContext)
+  const { token, userInfo } = useContext(AppContext)
   const router = useRouter()
+
+  const [inventoryList, setInventoryList] = useState<InventoryListAPIProps[]>([])
+
+  // Function Query To Get Inventory List
+  const {data: inventoryListQuery} = useQuery({
+    queryKey: [QUERY_KEYS.INVENTORY.LIST.key, token, userInfo?.id],
+    queryFn: async () => {
+      const results = await getInventoryList({token: token!, userId: userInfo?.id ?? 0})
+      return results
+    },
+    enabled: token != null && userInfo != null
+  })
+
+  useEffect(() => {
+    if(inventoryListQuery){
+      setInventoryList(inventoryListQuery)
+    }
+  }, [inventoryListQuery])
 
   return (
     <div className="container">
@@ -38,11 +57,7 @@ const InventoryList = () => {
           // onRowClick={(e) => {
           //   viewPost(e.original.id);
           // }}
-          url={tableURLWithParams(
-            process.env.NEXT_PUBLIC_SITE_URL as string,
-            PATHS.INVENTORY.LIST.root,
-            token
-          )}
+          rawData={inventoryList}
           startName="pageNo"
           sizeName="pageSize"
           totalRowName="totalRows"
