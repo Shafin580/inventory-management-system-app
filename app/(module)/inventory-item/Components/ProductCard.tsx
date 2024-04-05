@@ -14,7 +14,6 @@
 
 "use client"
 import { memo, useContext, useEffect, useState } from "react"
-import Image from "next/image"
 import Link from "next/link"
 import variables from "@variables/variables.module.scss"
 import { AppContext } from "@app-context"
@@ -22,83 +21,101 @@ import { cn } from "tailwind-cn"
 import { useRouter } from "next/navigation"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import ButtonIcon from "app/components/global/ButtonIcon"
+import { InventoryItemListAPIProps } from "app/(module)/services/api/inventory-item/get-inventory-item-list"
+import { LINKS } from "app/(module)/router.config"
+import CreateUpdateInventoryItemModal from "./CreateUpdateInventoryItemModal.Client"
+import InventoryItemDeleteModal from "./InventoryItemDeleteModal"
 
 export interface ProductCardInterface {
-  data: any
+  data: InventoryItemListAPIProps
 }
 
-const ProductCard = memo(function ProductCard({
-  data: any
-}: ProductCardInterface) {
-
+const ProductCard = memo(function ProductCard({ data }: ProductCardInterface) {
   const router = useRouter()
   const queryClient = useQueryClient()
   const { token } = useContext(AppContext)
 
-
-  const [imageSrc, setImageSrc] = useState()
-
+  const [showUpdateModal, setShowUpdateModal] = useState(false)
+  const [showDeleteModal, setShowDeleteModal] = useState(false)
 
   return (
     <div
       className={cn(
-        "overflow- group min-h-min w-full border-b border-slate-200 bg-white hover:shadow dark:border-gray-700 dark:bg-gray-800", ""
+        "overflow- group min-h-min w-full border-b border-slate-200 bg-white hover:shadow dark:border-gray-700 dark:bg-gray-800",
+        ""
       )}
     >
-      
-      <Link href={""} className="block h-full">
+      <div className="block h-full">
         <div className="relative inline-flex h-160 w-full overflow-hidden sm:h-[16rem]">
-            <ButtonIcon
-              iconName={"trash-01"}
-              iconColor={"white"}
-              className={`group-1 !absolute right-8 top-8 z-10 h-40 w-40 rounded-full bg-secondary/10 p-8 shadow-lg backdrop-blur-sm transition hover:bg-primary`}
-              hoverClassName="[.group-1:hover_&]:stroke-white"
-              iconClassName={"-top-2 relative"}
-              clicked={() => {
-                //
-              }}
-            />
-            <ButtonIcon
-              iconName={"edit-01"}
-              iconColor={"white"}
-              className={`group-1 !absolute left-8 top-8 z-10 h-40 w-40 rounded-full bg-secondary/10 p-8 shadow-lg backdrop-blur-sm transition hover:bg-primary`}
-              hoverClassName="[.group-1:hover_&]:stroke-white"
-              iconClassName={"-top-2 relative"}
-              clicked={() => {
-                //
-              }}
-            />
+          <ButtonIcon
+            iconName={"trash-01"}
+            iconColor={"white"}
+            className={`group-1 !absolute right-8 top-8 z-10 h-40 w-40 rounded-full bg-secondary/10 p-8 shadow-lg backdrop-blur-sm transition hover:bg-primary`}
+            hoverClassName="[.group-1:hover_&]:stroke-white"
+            iconClassName={"-top-2 relative"}
+            clicked={() => {
+              setShowDeleteModal(true)
+            }}
+          />
+          <ButtonIcon
+            iconName={"edit-01"}
+            iconColor={"white"}
+            className={`group-1 !absolute left-8 top-8 z-10 h-40 w-40 rounded-full bg-secondary/10 p-8 shadow-lg backdrop-blur-sm transition hover:bg-primary`}
+            hoverClassName="[.group-1:hover_&]:stroke-white"
+            iconClassName={"-top-2 relative"}
+            clicked={() => {
+              setShowUpdateModal(true)
+            }}
+          />
 
           {/* // + Image Component */}
-          <Image
-            unoptimized={true}
-            src={""}
-            alt={""}
-            title={""}
+          <img
+            src={data.image}
+            alt={data.name}
+            title={data.name}
             className={`object-cover object-center transition hover:opacity-80 group-hover:scale-105`}
-            fill
             sizes="100vw"
-            blurDataURL={`${process.env.blurDataURL}`}
-            onClick={() => {}}
-            placeholder="blur"
           />
         </div>
         {/* // + Product Title */}
         <div className="space-y-4 p-12">
-
           <div className="flex flex-col justify-between">
             <div className="top-info">
-              <div className="grid grid-cols-12 items-center">
-                <h6 className="col-span-11 line-clamp-2 leading-6 dark:text-white">{"Product Name"}</h6>
+              <div className="flex flex-col items-center">
+                <h6 className="col-span-11 line-clamp-2 leading-6 dark:text-white">{data.name}</h6>
+                <p>{data.description}</p>
               </div>
 
-                <p className="text-xs mt-6 text-slate-700">
-                  Quantity: <span className="font-medium">{200}</span>
-                </p>
+              <p className="mt-6 text-xs text-slate-700">
+                Quantity: <span className="font-medium">{data.quantity}</span>
+              </p>
             </div>
           </div>
         </div>
-      </Link>
+      </div>
+
+      {showUpdateModal && (
+        <CreateUpdateInventoryItemModal
+          apiData={data}
+          isUpdate={true}
+          onConfirm={(e) => {
+            setShowUpdateModal(e)
+          }}
+          onClose={(e) => setShowUpdateModal(e)}
+          inventoryId={data.inventoryId}
+        />
+      )}
+
+      {showDeleteModal && (
+        <InventoryItemDeleteModal
+          inventoryId={data.inventoryId}
+          itemId={data.id}
+          token={token!}
+          onCloseModal={(e) => {
+            setShowDeleteModal(e)
+          }}
+        />
+      )}
     </div>
   )
 })

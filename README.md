@@ -19,6 +19,6 @@ The project should be running now.
 
 Existing User Credentials:
 
-email: auth@email.com
+email: shafin@gmail.com
 
-password: testAuth123
+password: shafin@gmail.com

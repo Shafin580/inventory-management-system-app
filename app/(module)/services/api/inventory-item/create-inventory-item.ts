@@ -1,10 +1,13 @@
-import { getAPIResponse } from "@utils/helpers/misc"
+import { convertObjectToFormData, getAPIResponse } from "@utils/helpers/misc"
 import { PATHS } from "app/(module)/router.config"
 
 interface CreateUpdateInventoryItemParams {
   id?: number
+  inventoryId: number
   name: string
   description: string | null
+  quantity: number
+  image: string | null | File
 }
 
 export interface CreateUpdateInventoryItemAPIProps {
@@ -22,14 +25,14 @@ export const createInventoryItem = async ({ data, token }: CreateUpdateInventory
       PATHS.INVENTORY_ITEM.ADD.root,
       token,
       "POST",
-      JSON.stringify(data)
+      convertObjectToFormData(data)
     )
 
     if (status_code < 201 || status_code >= 400) {
-      return { status_code, message }
+      return { status_code: Number(status_code), message: String(message) }
     }
 
-    return { status_code, message }
+    return { status_code: Number(status_code), message: String(message) }
   } catch (err) {
     console.error(err)
 

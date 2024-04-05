@@ -11,7 +11,7 @@ export interface CreateAuthUserParams {
  */
 export const createAuthUser = async ({ email, password }: CreateAuthUserParams) => {
   try {
-    const { status_code, user, token } = await getAPIResponse(
+    const { status_code, user, token, message } = await getAPIResponse(
       process.env.NEXT_PUBLIC_SITE_URL!,
       PATHS.REGISTER.root,
       "",
@@ -23,7 +23,7 @@ export const createAuthUser = async ({ email, password }: CreateAuthUserParams) 
       throw Error("Failed to Create Auth User", { cause: status_code })
     }
 
-    return { status_code, user, token }
+    return { status_code : Number(status_code), message: String(message) }
   } catch (err) {
     console.error(err)
 

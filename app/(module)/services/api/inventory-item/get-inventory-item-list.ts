@@ -3,23 +3,24 @@ import { PATHS } from "app/(module)/router.config"
 
 export interface InventoryItemListAPIProps {
   id: number
+  inventoryId: number
   name: string
-  email: string
-  phone_number: string | null
-  address: string | null
+  description: string | null
+  quantity: number
+  image: string
 }
 
 /**
  * Fetches the inventory item list from API
  */
-export const getInventoryItemList = async ({ token, userId, inventoryId }: { token: string; userId: number; inventoryId: number }) => {
+export const getInventoryItemList = async ({ token, userId, inventoryId }: { token: string; userId: number; inventoryId: number | string }) => {
   try {
     const { results, status_code } = await getAPIResponse(
       process.env.NEXT_PUBLIC_SITE_URL!,
-      PATHS.INVENTORY_ITEM.LIST(inventoryId).root,
+      PATHS.INVENTORY_ITEM.LIST.root,
       token,
       "POST",
-      JSON.stringify({ userId: userId })
+      JSON.stringify({ userId: userId, inventoryId: inventoryId })
     )
 
     if (status_code === 200) {
@@ -30,7 +31,5 @@ export const getInventoryItemList = async ({ token, userId, inventoryId }: { tok
       })
   } catch (err) {
     console.error(err)
-
-    return { status_code: 500, message: "Server Error" } // tsq does not take undefine i.e. return undefined / return void / empty
   }
 }

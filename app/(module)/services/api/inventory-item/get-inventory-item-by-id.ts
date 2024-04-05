@@ -17,10 +17,10 @@ export const getInventoryItemDetails = async ({ id, token, userId }: { id: strin
   try {
     const { results, status_code } = await getAPIResponse(
       process.env.NEXT_PUBLIC_SITE_URL!,
-      PATHS.INVENTORY_ITEM.DETAILS(id).root,
+      PATHS.INVENTORY_ITEM.DETAILS.root,
       token,
       "POST",
-      JSON.stringify({userId: userId})
+      JSON.stringify({userId: userId, id: id})
     )
 
     if (status_code === 200) {
@@ -31,7 +31,5 @@ export const getInventoryItemDetails = async ({ id, token, userId }: { id: strin
       })
   } catch (err) {
     console.error(err)
-
-    return { status_code: 500, message: "Server Error" } // tsq does not take undefine i.e. return undefined / return void / empty
   }
 }

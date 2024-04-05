@@ -8,9 +8,10 @@ export const deleteInventory = async ({ id, token }: { id: string | number; toke
   try {
     const { results, status_code, message } = await getAPIResponse(
       process.env.NEXT_PUBLIC_SITE_URL!,
-      PATHS.INVENTORY.DELETE(id).root,
+      PATHS.INVENTORY.DELETE.root,
       token,
-      "DELETE"
+      "POST",
+      JSON.stringify({inventoryId: id})
     )
 
     if (status_code === 200) {

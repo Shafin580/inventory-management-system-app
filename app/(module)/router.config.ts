@@ -13,13 +13,10 @@ export const LINKS = {
     },
   },
   INVENTORY_ITEM: {
-    LIST: (inventoryId: string | number) => {
-      return {home: `inventory-item/${inventoryId}`} as const
+    DYNAMIC: ({ id }: { id: string | number }) => {
+      return { home: `inventory-item/${id}` } as const
     },
-    DYNAMIC: ({id, inventoryId}:{id: string | number, inventoryId: string | number}) => {
-      return {home: `inventory-item/${inventoryId}/${id}`} as const
-    }
-  }
+  },
 } as const
 
 /**
@@ -39,28 +36,17 @@ export const PATHS = {
     ADD: {
       root: `inventory/add` as const,
     },
-    DELETE: (id: string | number) => {
-      return { root: `inventory/delete/${id}` as const }
-    },
-    UPDATE: (id: number) => {
-      return { root: `inventory/update/${id}` as const }
-    },
+    DELETE: { root: `inventory/delete` as const },
+
+    UPDATE: { root: `inventory/update` as const },
   },
   INVENTORY_ITEM: {
-    LIST: (inventoryId: string | number) => {
-      return { root: `item/list/${inventoryId}` } as const
-    },
-    DETAILS: (id: string | number) => {
-      return { root: `item/${id}` as const }
-    },
+    LIST: { root: `item/list` } as const,
+    DETAILS: { root: `item-detail` as const },
     ADD: {
       root: `item/add` as const,
     },
-    DELETE: (id: string | number) => {
-      return { root: `item/delete/${id}` as const }
-    },
-    UPDATE: (id: number) => {
-      return { root: `item/update/${id}` as const }
-    },
+    DELETE: { root: `item/delete` as const },
+    UPDATE: { root: `item/update` as const },
   },
 }

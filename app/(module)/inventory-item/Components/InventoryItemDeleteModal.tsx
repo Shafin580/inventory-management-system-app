@@ -2,6 +2,7 @@
 
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { QUERY_KEYS } from "app/(module)/query.config"
+import { deleteInventoryItem } from "app/(module)/services/api/inventory-item/delete-inventory-item-by-id"
 import { deleteInventory } from "app/(module)/services/api/inventory/delete-inventory-by-id"
 import { AppContext } from "app/App.Context"
 import Button from "app/components/global/Button"
@@ -9,12 +10,14 @@ import ModalBlank from "app/components/global/ModalBlank"
 import { ToastContext } from "app/components/global/Toast/Context"
 import { useContext, useState } from "react"
 
-const InventoryDeleteModal = ({
+const InventoryItemDeleteModal = ({
+  itemId,
   inventoryId,
   onCloseModal,
   token,
 }: {
-  inventoryId: string | number
+  itemId: string | number
+  inventoryId: number | string
   onCloseModal: (e: boolean) => void
   token: string
 }) => {
@@ -25,12 +28,12 @@ const InventoryDeleteModal = ({
   const { renderToast } = useContext(ToastContext)
 
   // + Function to Delete Inventory
-  const deleteInventoryMutation = useMutation({
+  const deleteInventoryItemMutation = useMutation({
     mutationFn: async () => {
       updateLoadingStatus(true, "Deleting")
-      const response = await deleteInventory({ id: inventoryId, token: token })
+      const response = await deleteInventoryItem({ id: itemId, token: token })
       if (response.status_code == 200) {
-        queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.INVENTORY.LIST.key] })
+        queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.INVENTORY_ITEM.LIST(inventoryId).key] })
         renderToast([
           {
             message: response.message,
@@ -40,7 +43,7 @@ const InventoryDeleteModal = ({
       } else {
         renderToast([
           {
-            message: response.message,
+            message: "Failed to Delete Inventory!",
             variant: "error",
           },
         ])
@@ -75,7 +78,7 @@ const InventoryDeleteModal = ({
           modalSize="sm"
           modalAlign="center"
         >
-          <h5 className="!mb-28 text-center">{"Are you sure you want to delete this inventory?"}</h5>
+          <h5 className="!mb-28 text-center">{"Are you sure you want to delete this inventory item?"}</h5>
           <div className="grid grid-cols-2 gap-x-20">
             <Button
               btnText={"Cancel"}
@@ -92,7 +95,7 @@ const InventoryDeleteModal = ({
               variant={"success"}
               fullWidth
               clicked={() => {
-                deleteInventoryMutation.mutate()
+                deleteInventoryItemMutation.mutate()
               }}
             />
           </div>
@@ -102,4 +105,4 @@ const InventoryDeleteModal = ({
   )
 }
 
-export default InventoryDeleteModal
+export default InventoryItemDeleteModal

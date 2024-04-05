@@ -9,7 +9,7 @@ export const updateInventory = async ({ data, token }: CreateUpdateInventoryAPIP
   try {
     const { status_code, message } = await getAPIResponse(
       process.env.NEXT_PUBLIC_SITE_URL!,
-      PATHS.INVENTORY.UPDATE(data.id ?? 0).root,
+      PATHS.INVENTORY.UPDATE.root,
       token,
       "POST",
       JSON.stringify(data)

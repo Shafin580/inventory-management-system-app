@@ -38,8 +38,6 @@ const InventoryCreateUpdateModal = ({
     const [formData, setFormData] = useState<CreateUpdateInventoryAPIProps["data"]>()
     const [errorField, setErrorField] = useState({
       nameError: "",
-      emailError: "",
-      phoneError: "",
     })
 
     // + Function to Validate Data
@@ -65,31 +63,32 @@ const InventoryCreateUpdateModal = ({
           data: {
             name: data.name,
             description: data.description,
+            userId: data.userId,
           },
           token: token!,
         })
 
         if (response.status_code == 201) {
-          updateLoadingStatus(false, undefined)
           renderToast([
             {
               message: response.message,
               variant: "success",
             },
           ])
-          queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.INVENTORY.LIST.key] })
-          onConfirm(false)
+          queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.INVENTORY.LIST.key, token!, data.userId] })
         } else {
-          updateLoadingStatus(false, undefined)
           renderToast([
             {
-              message: "Error Creating Inventory!",
+              message: response.message,
               variant: "error",
             },
           ])
         }
+        updateLoadingStatus(false, undefined)
+        onConfirm(false)
       },
       onError: () => {
+        onConfirm(false)
         updateLoadingStatus(false, undefined)
         renderToast([
           {
@@ -114,7 +113,6 @@ const InventoryCreateUpdateModal = ({
         })
 
         if (response.status_code == 200) {
-          updateLoadingStatus(false, undefined)
           renderToast([
             {
               message: response.message,
@@ -123,18 +121,19 @@ const InventoryCreateUpdateModal = ({
           ])
           queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.INVENTORY.LIST.key] })
           queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.INVENTORY.DYNAMIC(data.id ?? 0).key] })
-          onConfirm(false)
         } else {
-          updateLoadingStatus(false, undefined)
           renderToast([
             {
-              message: "Error Updating Inventory!",
+              message: response.message,
               variant: "error",
             },
           ])
         }
+        updateLoadingStatus(false, undefined)
+        onConfirm(false)
       },
       onError: () => {
+        onConfirm(false)
         updateLoadingStatus(false, undefined)
         renderToast([
           {
@@ -160,6 +159,15 @@ const InventoryCreateUpdateModal = ({
       }
     }, [isUpdate, apiData])
 
+    // + Debugging useEffect Calls
+    useEffect(() => {
+      console.log("User Info:", userInfo)
+    }, [userInfo])
+
+    useEffect(() => {
+      console.log("Form Data", formData)
+    }, [formData])
+
     return (
       <form
         className="space-y-16"
@@ -168,7 +176,7 @@ const InventoryCreateUpdateModal = ({
           e.stopPropagation()
         }}
       >
-        <h3>{`${isUpdate ? "Update" : "Add New"} Contact`}</h3>
+        <h3>{`${isUpdate ? "Update" : "Add New"} Inventory`}</h3>
 
         <div className="grid grid-cols-2 gap-16">
           {/* // + Name Field */}

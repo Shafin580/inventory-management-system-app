@@ -330,3 +330,40 @@ export const tableURLWithParams = (basePath: string, apiPath: string, token: str
     },
   }
 }
+
+// + Function To Fetch Image Data
+export const fetchImageData = async (imageSrc: string, imageName: string): Promise<File> => {
+  try {
+    const response = await fetch(imageSrc)
+    const blob = await response.blob()
+    const file = new File([blob], imageName, { type: blob.type })
+    // return URL.createObjectURL(blob)
+    return file
+  } catch (error) {
+    const file = new File([], "")
+    console.error("Error fetching image data:", error)
+    return file
+  }
+}
+
+/**
+ * Convert any Object with nested Objects to Form Data
+ */
+export const convertObjectToFormData = (obj: any, formData = new FormData(), namespace = ""): FormData => {
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      const value = obj[key]
+      const formKey = namespace ? `${namespace}[${key}]` : key
+
+      if (value instanceof Object && !(value instanceof File)) {
+        convertObjectToFormData(value, formData, formKey)
+      } else if (value instanceof File) {
+        formData.append(formKey, value)
+      } else {
+        formData.append(formKey, String(value))
+      }
+    }
+  }
+
+  return formData
+}

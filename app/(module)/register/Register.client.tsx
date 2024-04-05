@@ -24,31 +24,25 @@ const Register = () => {
       updateLoadingStatus(true, "Registering...")
       const data = await createAuthUser(credentials)
 
-      if (data.status_code == 201 && data.user && data.token) {
-        updateLoadingStatus(false, undefined)
-        login(data.token, {
-          email: data.user.email as string,
-          id: Number(data.user.id),
-          username: data.user.name as string,
-        })
+      if (data.status_code == 201) {
         renderToast([
           {
-            message: data.message ?? "User registered successfully!",
+            message: data.message,
             variant: "success",
             onClose: () => {},
           },
         ])
-        router.push(LINKS.INVENTORY.LIST.home)
+        router.push(LINKS.HOME)
       } else {
-        updateLoadingStatus(false, undefined)
         renderToast([
           {
-            message: data.message ?? "Invalid Data Input",
+            message: data.message,
             variant: "error",
             onClose: () => {},
           },
         ])
       }
+      updateLoadingStatus(false, undefined)
     },
     onError: () => {
       updateLoadingStatus(false, undefined)

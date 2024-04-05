@@ -1,18 +1,18 @@
-import { getAPIResponse } from "@utils/helpers/misc"
+import { convertObjectToFormData, getAPIResponse } from "@utils/helpers/misc"
 import { PATHS } from "app/(module)/router.config"
 import { CreateUpdateInventoryItemAPIProps } from "./create-inventory-item"
 
 /**
  * Update Inventory Item
  */
-export const updateInventory = async ({ data, token }: CreateUpdateInventoryItemAPIProps) => {
+export const updateInventoryItem = async ({ data, token }: CreateUpdateInventoryItemAPIProps) => {
   try {
     const { status_code, message } = await getAPIResponse(
       process.env.NEXT_PUBLIC_SITE_URL!,
-      PATHS.INVENTORY.UPDATE(data.id ?? 0).root,
+      PATHS.INVENTORY.UPDATE.root,
       token,
       "POST",
-      JSON.stringify(data)
+      convertObjectToFormData(data)
     )
 
     if (status_code < 200 || status_code >= 400) {

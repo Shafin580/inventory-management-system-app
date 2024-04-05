@@ -6,13 +6,16 @@ import { AppContext } from "app/App.Context"
 import ButtonIcon from "app/components/global/ButtonIcon"
 import TablePagy from "app/components/table/TablePagy"
 import { useContext, useEffect, useState } from "react"
-import ContactCreateUpdateModal from "./Components/InventoryCreateUpdateModal"
 import InventoryDeleteModal from "./Components/InventoryDeleteModal"
 import { QUERY_KEYS } from "app/(module)/query.config"
 import Button from "app/components/global/Button"
 import { useRouter } from "next/navigation"
 import { useQuery } from "@tanstack/react-query"
-import { getInventoryList, InventoryListAPIProps } from "app/(module)/services/api/inventory/get-inventory-list"
+import {
+  getInventoryList,
+  InventoryListAPIProps,
+} from "app/(module)/services/api/inventory/get-inventory-list"
+import InventoryCreateUpdateModal from "./Components/InventoryCreateUpdateModal"
 
 const InventoryList = () => {
   const [showCreateModal, setShowCreateModal] = useState(false)
@@ -27,30 +30,31 @@ const InventoryList = () => {
   const [inventoryList, setInventoryList] = useState<InventoryListAPIProps[]>([])
 
   // Function Query To Get Inventory List
-  const {data: inventoryListQuery} = useQuery({
+  const { data: inventoryListQuery } = useQuery({
     queryKey: [QUERY_KEYS.INVENTORY.LIST.key, token, userInfo?.id],
     queryFn: async () => {
-      const results = await getInventoryList({token: token!, userId: userInfo?.id ?? 0})
+      const results = await getInventoryList({ token: token!, userId: userInfo?.id ?? 0 })
       return results
     },
-    enabled: token != null && userInfo != null
+    enabled: token != null && userInfo != null,
   })
 
   useEffect(() => {
-    if(inventoryListQuery){
+    if (inventoryListQuery) {
       setInventoryList(inventoryListQuery)
     }
   }, [inventoryListQuery])
 
   return (
     <div className="container">
-      <h3 className="text-center text-primary">Contact List</h3>
+      <h3 className="text-center text-primary">Inventory List</h3>
       <Button
-        btnText="Add New Contact"
+        btnText="Add New Inventory"
         variant="primary"
         clicked={() => {
           setShowCreateModal(true)
         }}
+        className="my-10"
       />
       {token != null && (
         <TablePagy
@@ -63,7 +67,7 @@ const InventoryList = () => {
           totalRowName="totalRows"
           pageSize={30}
           rowPerPageOptions={[30, 40, 50]}
-          queryParameters={{ queryKey: [QUERY_KEYS.INVENTORY.LIST.key] }}
+          queryParameters={{ queryKey: [QUERY_KEYS.INVENTORY.LIST.key, token, userInfo?.id] }}
           columnHeadersLabel={[
             {
               accessorKey: "name",
@@ -81,30 +85,28 @@ const InventoryList = () => {
                 <div className="flex flex-row space-x-6">
                   <ButtonIcon
                     clicked={() => {
-                      router.push(LINKS.INVENTORY_ITEM.LIST(row.original.id).home)
+                      router.push(LINKS.INVENTORY.DYNAMIC(row.original.id).home)
                     }}
-                    className="mx-auto"
                     iconName="eye"
+                    title="View Items"
                   />
-
                   <ButtonIcon
                     clicked={() => {
                       setSelectedData(row.original as InventoryListAPIProps)
                       setShowUpdateModal(true)
                       console.log("Selected Data", row.original)
                     }}
-                    className="mx-auto"
                     iconName="edit-01"
+                    title="Edit"
                   />
-
                   <ButtonIcon
                     clicked={() => {
                       setSelectedData(row.original as InventoryListAPIProps)
                       setShowDeleteModal(true)
                       console.log("Selected Data", row.original)
                     }}
-                    className="mx-auto"
                     iconName="trash-01"
+                    title="Delete"
                   />
                 </div>
               ),
@@ -114,7 +116,7 @@ const InventoryList = () => {
       )}
 
       {showCreateModal && (
-        <ContactCreateUpdateModal
+        <InventoryCreateUpdateModal
           isUpdate={false}
           onClose={(e) => {
             setShowCreateModal(e)
@@ -126,7 +128,7 @@ const InventoryList = () => {
       )}
 
       {showUpdateModal && selectedData != null && (
-        <ContactCreateUpdateModal
+        <InventoryCreateUpdateModal
           isUpdate={true}
           onClose={(e) => {
             setShowCreateModal(e)
